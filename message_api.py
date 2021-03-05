@@ -7,7 +7,7 @@ def hello_world():
     return "Hello World"
 
 
-# 管理员初始化
+# 管理员初始化 //
 @app.route('/init/admin', methods=['GET'])
 def init_admin():
     """
@@ -27,7 +27,7 @@ def init_admin():
         return jsonify(code=400, msg='初始化管理员失败')
 
 
-# 管理员登陆
+# 管理员登陆 //
 @app.route('/admin/login', methods=['POST'])
 def login_admin():
     """
@@ -54,7 +54,7 @@ def login_admin():
     return jsonify(msg='登陆成功')
 
 
-# 检查登陆状态
+# 检查登陆状态 //
 @app.route('/admin/session', methods=['GET'])
 def check_admin_session():
     username = session.get('admin_name')
@@ -66,7 +66,7 @@ def check_admin_session():
         return jsonify(msg='出错了，没登陆')
 
 
-# 管理员退出登录
+# 管理员退出登录 //
 @app.route('/admin/logout')
 def logout_admin():
     session.clear()
@@ -92,7 +92,7 @@ def admin_delete_message():
 
 
 
-# 用户注册
+# 用户注册 //
 @app.route('/user/register', methods=['POST'])
 def user_register():
     """
@@ -115,7 +115,7 @@ def user_register():
         return jsonify(code=400, msg='注册用户失败')
 
 
-# 用户登录
+# 用户登录 //
 @app.route('/user/login', methods=['POST'])
 def user_login():
     req_data = request.get_json()
@@ -125,7 +125,7 @@ def user_login():
         return jsonify(code=400, msg='参数不完整')
     
     # 查找数据库管理员
-    user = User.query.filter(User.username==username)
+    user = User.query.filter(User.username==username).first()
     if user is None:
         return jsonify(code=400, msg='管理员不存在')
     
@@ -139,7 +139,7 @@ def user_login():
     return jsonify(msg='登陆成功')
 
 
-# 检查登陆状态
+# 检查登陆状态 //
 @app.route('/user/session', methods=['GET'])
 def check_user_session():
     username = session.get('user_name')
@@ -151,8 +151,8 @@ def check_user_session():
         return jsonify(msg='出错了，没登陆')
 
 
-# 用户退出登录
-@app.route('/user/logout', methods=['POST'])
+# 用户退出登录 //
+@app.route('/user/logout')
 def user_logout():
     session.clear()
     return jsonify(msg='成功推出登陆')
