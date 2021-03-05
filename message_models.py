@@ -14,7 +14,7 @@ db = SQLAlchemy(app)  # 实例化数据库
 class Admin(db.Model):
     __tablename__ = "admin"
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(32), nullable=False)
+    username = db.Column(db.String(32), nullable=False, unique=True)  # 管理员用户名需要独一无二的
     password = db.Column(db.String(64), nullable=False)
     tags = db.relationship("Tag", backref="admin")
 
@@ -31,7 +31,7 @@ class Tag(db.Model):
 class User(db.Model):
     __tablename__ = "user"
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(32), nullable=False)
+    username = db.Column(db.String(32), nullable=False, unique=True)  # 用户用户名需要独一无二的
     password = db.Column(db.String(64), nullable=False)
     tags = db.relationship("Message", backref="user")  # 反向访问
 
@@ -55,5 +55,5 @@ class MessageToTag(db.Model):
 
 
 if __name__ == "__main__":
-    db.create_all()
-    # db.drop_all()
+    # db.create_all()
+    db.drop_all()
