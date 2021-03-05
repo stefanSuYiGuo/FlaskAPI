@@ -2,6 +2,7 @@ from message_models import app, db, Admin, Tag, User, Message
 from flask import jsonify, request, session
 
 @app.route('/index')
+@app.route('/')
 def hello_world():
     return "Hello World"
 
@@ -27,7 +28,7 @@ def init_admin():
 
 
 # 管理员登陆
-@app.route('/admin/login')
+@app.route('/admin/login', methods=['POST'])
 def login_admin():
     """
     传 账号 密码
@@ -39,7 +40,7 @@ def login_admin():
         return jsonify(code=400, msg='参数不完整')
     
     # 查找数据库管理员
-    admin = Admin.query.filter(Admin.username==username)
+    admin = Admin.query.filter(Admin.username==username).first()
     if admin is None:
         return jsonify(code=400, msg='管理员不存在')
     
@@ -55,7 +56,7 @@ def login_admin():
 
 # 检查登陆状态
 @app.route('/admin/session', methods=['GET'])
-def check_session():
+def check_admin_session():
     username = session.get('admin_name')
     admin_id = session.get('admin_id')
 
@@ -140,7 +141,7 @@ def user_login():
 
 # 检查登陆状态
 @app.route('/user/session', methods=['GET'])
-def check_session_user():
+def check_user_session():
     username = session.get('user_name')
     user_id = session.get('user_id')
 
@@ -171,7 +172,7 @@ def user_delete_message():
 
 # 用户查看留言记录
 @app.route('/user/message/history', methods=['GET'])
-def user_get_message():
+def user_messages_history():
     pass
 
 
