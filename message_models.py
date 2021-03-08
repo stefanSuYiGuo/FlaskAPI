@@ -23,7 +23,7 @@ class Admin(db.Model):
 class Tag(db.Model):
     __tablename__ = "tag"
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(10), nullable=False)  # 标签名字
+    name = db.Column(db.String(10), nullable=False, unique=True)  # 标签名字
     admin_id = db.Column(db.Integer, db.ForeignKey("admin.id"))  # 所属管理员
 
 
@@ -34,6 +34,7 @@ class User(db.Model):
     username = db.Column(db.String(32), nullable=False, unique=True)  # 用户用户名需要独一无二的
     password = db.Column(db.String(64), nullable=False)
     tags = db.relationship("Message", backref="user")  # 反向访问
+    # messages = db.relationship("Message", backref="user")  # 反向访问
 
 
 # 留言条
